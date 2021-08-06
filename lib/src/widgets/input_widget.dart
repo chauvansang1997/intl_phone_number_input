@@ -58,6 +58,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
 
   /// Ignored if [setSelectorButtonAsPrefixIcon = true]
   final double spaceBetweenSelectorAndTextField;
+  final Widget? separator;
   final int maxLength;
 
   final bool isEnabled;
@@ -122,7 +123,8 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.focusNode,
       this.cursorColor,
       this.autofillHints,
-      this.countries})
+      this.countries,
+      this.separator})
       : super(key: key);
 
   @override
@@ -417,6 +419,7 @@ class _InputWidgetView
             ),
             SizedBox(width: widget.spaceBetweenSelectorAndTextField),
           ],
+          widget.separator ?? const SizedBox(),
           Flexible(
             child: TextFormField(
               key: Key(TestHelper.TextInputKeyValue),
