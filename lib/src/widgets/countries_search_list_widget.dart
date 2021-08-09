@@ -87,7 +87,6 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
       decoration: ShapeDecoration(
         color: Theme.of(context).canvasColor,
         shape: RoundedRectangleBorder(
