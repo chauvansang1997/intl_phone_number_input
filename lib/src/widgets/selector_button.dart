@@ -5,6 +5,7 @@ import 'package:intl_phone_number_input/src/utils/test/test_helper.dart';
 import 'package:intl_phone_number_input/src/widgets/countries_search_list_widget.dart';
 import 'package:intl_phone_number_input/src/widgets/input_widget.dart';
 import 'package:intl_phone_number_input/src/widgets/item.dart';
+import 'package:keyboard_utils/keyboard_aware/keyboard_aware.dart';
 
 /// [SelectorButton]
 class SelectorButton extends StatelessWidget {
@@ -146,38 +147,35 @@ class SelectorButton extends StatelessWidget {
       isScrollControlled: isScrollControlled,
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
       builder: (BuildContext context) {
-        return Stack(children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-          ),
-          DraggableScrollableSheet(
-            builder: (BuildContext context, ScrollController controller) {
-              return Container(
-                decoration: ShapeDecoration(
-                  color: Theme.of(context).canvasColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                  ),
-                ),
-                child: CountrySearchListWidget(
-                  countries,
-                  locale,
-                  searchBoxDecoration: searchBoxDecoration,
-                  scrollController: controller,
-                  showFlags: selectorConfig.showFlags,
-                  useEmoji: selectorConfig.useEmoji,
-                  autoFocus: autoFocusSearchField,
-                ),
-              );
-            },
-          ),
-        ]);
+        return KeyboardAware(builder: (context, keyboardConfig) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: keyboardConfig.keyboardHeight),
+            child: Stack(children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+              ),
+              DraggableScrollableSheet(
+                builder: (BuildContext context, ScrollController controller) {
+                  return CountrySearchListWidget(
+                    countries,
+                    locale,
+                    searchBoxDecoration: searchBoxDecoration,
+                    scrollController: controller,
+                    showFlags: selectorConfig.showFlags,
+                    useEmoji: selectorConfig.useEmoji,
+                    autoFocus: autoFocusSearchField,
+                  );
+                },
+              ),
+            ]),
+          );
+        });
       },
     );
   }
